@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ title }}
+{%endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Мой магазин</h1>
+        <hr>
+
+        <div class="list-group">
+            <a href='{% url "all_orders" %}' class="list-group-item list-group-item-action">Заказы</a>
+            <a href='{% url "add_client" %}' class="list-group-item list-group-item-action">Добавить клиента</a>
+            <a href='{% url "add_product" %}' class="list-group-item list-group-item-action">Добавить товар</a>
+            <a href='{% url "add_order" %}' class="list-group-item list-group-item-action">Создать заказ</a>
+          </div>
+    </div>
+
+{% endblock %}

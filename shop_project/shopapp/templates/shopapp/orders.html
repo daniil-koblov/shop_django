@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ title }}
+{%endblock %}
+
+{% block content %}
+    <div class="container">
+    <h1>{{ title }}</h1>
+
+    {% if client %}
+        {% for ord in order  %}
+            <p>Товары в заказе:</p>
+            <div class="d-flex flex-row mb-3 text-center">
+
+                {% for product in ord.products.all %}
+                <div class="p-3">
+                    <div class="card" style="width: 10rem;">
+                        {% if product.product_image %}
+                            <img class="img-thumbnail" src="{{ product.product_image.url }}" alt="{{ product.title }}" style="">
+                        {% endif %}
+                        <div class="card-body">
+                          <h5 class="card-title">{{ product.title }}</h5>
+                          <p class="card-text"> Цена: {{ product.price }}₽</p>
+                          <p class="card-text"> Количество: {{ quantities.pop }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <p>Сумма заказа: {{ ord.total_amount }}₽</p>
+            <p>Дата заказа: {{ ord.order_date }}</p>
+            <hr>
+            <br>
+        {% endfor %}
+        <h3>Заказанные товары за последнюю неделю</h3>
+        {% for product in products_week %}
+            {{ product.title }} <br>
+        {% endfor %}
+        <h3>Заказанные товары за последний месяц</h3>
+        {% for product in products_month %}
+            {{ product.title }} <br>
+        {% endfor %}
+        <h3>Заказанные товары за последний год</h3>
+        {% for product in products_year %}
+            {{ product.title }} <br>
+        {% endfor %}
+    {% else %}
+
+    <table class="table table-success table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Покупатель</th>
+                <th scope="col">Сумма заказа</th>
+                <th scope="col">Дата заказа</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ord in order %}
+                <tr>
+                    <th scope="row">{{ ord.id }}</th>
+                    <td><a href='{% url "orders" ord.buyer.id %}'>{{ ord.buyer }}</a></td>
+                    <td>{{ ord.total_amount }}₽</td>
+                    <td>{{ ord.order_date }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% endif %}
+</div>
+
+{% endblock %}
